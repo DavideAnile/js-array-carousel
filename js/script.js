@@ -13,18 +13,28 @@ attiva, che quindi verrà visualizzata al posto della precedente.
 
 */
 
+
 /* 
 -creo un'array con le immagini
 -credo le variabili per gli elementi che mi servono
 -creo una variabile indice
+-genero thumbnail con un ciclo in base all'array lenght e le appendo
 -> alla pressione della freccia in alto
-    °aumento il valore dell'indice di un'unità
-    °mostrare l'immagine corrispondente al valore dell'indice
+-diminuisco il valore dell'indice di un'unità
+? SE il valore dell'indice è minore di 0
+    °il valore dell'indice ritorna a 4 e riprendo le operazioni
     °aggiungere la classe active alla posizione dell'indice  
+    °mostrare l'immagine corrispondente al valore dell'indice
+    °rimuovo la classe active dalla thumbnail precedente
+ :ALTRIMENTI continua le operazioni     
 -> alla pressione della freccia in basso 
-    °diminuisco il valore dell'indice di un'unità
+-aumento il valore dell'indice di un'unità
+? SE il valore dell'indice è uguale a 5
+    °il valore dell'indice diventa 0 e continuo le operazioni
+    °aggiungere la classe active alla posizione dell'indice
     °mostrare l'immagine corrispondente al valore dell'indice
-    °aggiungere la classe active alla posizione dell'indice  
+    °rimuovo la classe active dalla thumbnail precedente
+ : ALTRIMENTI continua le operazioni     
   
 
 
@@ -34,61 +44,93 @@ attiva, che quindi verrà visualizzata al posto della precedente.
 const images = ["img/01.webp", "img/02.webp", "img/03.webp", "img/04.webp", "img/05.webp"]
 
 //-credo le variabili per gli elementi che mi servono
-const thumbnailContainerEl = document.getElementById("thumbnail-container")
+
+const thumbnailContainerEl = document.getElementById("thumbnail-container");
 const imgElementEl = document.getElementById("img-element");
 const upArrow = document.getElementById("up-arrow");
-const downArrow = document.getElementById("down-arrow")
+const downArrow = document.getElementById("down-arrow");
 
 
 
 
-for(let i = 0;i <images.length;i++){
-    let thumbnail = document.createElement("img")
-    thumbnail.classList.add("thumbnail")
-    thumbnail.src = images[i]
-    thumbnailContainerEl.append(thumbnail)
-}
+
+
+// genero thumbnail con un ciclo in base all'array lenght e le appendo
+for(let i = 0;i < images.length;i++){
+    let thumbnail = document.createElement("img");
+    thumbnail.classList.add("thumbnail");
+    thumbnail.src = images[i];
+    thumbnailContainerEl.append(thumbnail);
+};
 
 // -creo una variabile indice
 let index = 2;
 imgElementEl.src = images[index];
     
-let thumbnailList = document.querySelectorAll(".thumbnail")
-thumbnailList[index].classList.add("active")
+let thumbnailList = document.querySelectorAll(".thumbnail");
+thumbnailList[index].classList.add("active");
 
-
+//-> alla pressione della freccia in alto
 upArrow.addEventListener("click", function(){
-
-//°aumento il valore dell'indice di un'unità
- index++
-
- //aggiungo classe active alle thumbnail corrispondente al valore indice
- thumbnailList[index].classList.add("active")
- 
-
- //°mostrare l'immagine corrispondente al valore dell'indice
- imgElementEl.src = images[index] 
- console.log(index)
-
- //rimuovo la classe active dalla thumbnail precedente
-  thumbnailList[index - 1].classList.remove("active")  
-})
-
-downArrow.addEventListener("click", function(){
 
 //°diminuisco il valore dell'indice di un'unità
 index--
+      
+// ? SE il valore dell'indice è minore di 0
+//    °il valore dell'indice ritorna a 4 e riprendo le operazioni
+if(index < 0){
+    index = 4;
 
-//aggiungo classe active alle thumbnail corrispondente al valore indice
-thumbnailList[index].classList.add("active")
+ //aggiungo classe active alle thumbnail corrispondente al valore indice
+    thumbnailList[index].classList.add("active");
+ 
+//°mostrare l'immagine corrispondente al valore dell'indice    
+    imgElementEl.src = images[index];
 
-//°mostrare l'immagine corrispondente al valore dell'indice
-imgElementEl.src = images[index]
+//rimuovo la classe active dalla thumbnail precedente    
+    thumbnailList[0].classList.remove("active");
 
 
-//rimuovo la classe active dalla thumbnail precedente
-thumbnailList[index + 1].classList.remove("active") 
-})
+
+    // ALTRIMENTI continua le operazioni    
+} else {
+    thumbnailList[index].classList.add("active");
+    imgElementEl.src = images[index];
+    console.log(index);
+    thumbnailList[index + 1].classList.remove("active");
+}
+
+  
+});
+
+downArrow.addEventListener("click", function(){
+
+//aumento il valore dell'indice di un'unità
+    index++
+
+// SE il valore dell'indice è uguale a 5
+//      °il valore dell'indice diventa 0 e continuo le operazioni    
+    if(index == 5){
+        index = 0;
+
+//aggiungo classe active alle thumbnail corrispondente al valore indice        
+        thumbnailList[index].classList.add("active");
+
+//°mostrare l'immagine corrispondente al valore dell'indice        
+        imgElementEl.src = images[index];
+        
+ //rimuovo la classe active dalla thumbnail precedente       
+        thumbnailList[4].classList.remove("active");
+        
+// : ALTRIMENTI continuo le operazioni        
+    } else {
+        thumbnailList[index].classList.add("active");
+        imgElementEl.src = images[index];
+        console.log(index);
+        thumbnailList[index - 1].classList.remove("active");
+    };
+
+});
 
 
 
