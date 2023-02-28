@@ -82,7 +82,7 @@ h1{
 #up-arrow{
     position: absolute;
     top: 0;
-    z-index: 2;
+    z-index: 1;
     right: 70px;
     color: white;
     text-align: center;
